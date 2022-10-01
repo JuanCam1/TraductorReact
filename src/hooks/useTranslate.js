@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const useTranslate = () => {
   const [data, setData] = useState([]);
@@ -6,7 +7,6 @@ const useTranslate = () => {
   const [textArea, setTextArea] = useState([]);
   const [selectBefore, setSelectBefore] = useState('');
   const [selectAfter, setSelectAfter] = useState('[]');
-
 
   const url = 'https://text-translator2.p.rapidapi.com';
 
@@ -39,10 +39,6 @@ const useTranslate = () => {
   };
 
   const handleOnClick = () => {
-    console.log(textArea);
-    console.log(selectBefore);
-    console.log(selectAfter);
-
     if (selectBefore.length > 0 && selectAfter.length > 0) {
       if (textArea.length > 0) {
         const encodedParams = new URLSearchParams();
@@ -68,15 +64,24 @@ const useTranslate = () => {
           })
           .catch((err) => console.error(err));
       } else {
-        alert('digite el texto a traducir');
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Digite texto a traducir!',
+          showConfirmButton: false,
+          timer: 1000,
+        });
       }
     } else {
-      alert('seleccione los idiomas');
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Seleccione los idiomas!',
+        showConfirmButton: false,
+        timer: 1000
+      })
     }
-
-    console.log(dataTra);
   };
-
 
   return {
     data,
@@ -84,8 +89,8 @@ const useTranslate = () => {
     handleOnChange,
     handleOnChangeSelecBefore,
     handleOnChangeSelectAfter,
-    handleOnClick
-  }
-}
+    handleOnClick,
+  };
+};
 
-export default useTranslate
+export default useTranslate;
